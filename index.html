@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Cryptographer's Toolkit</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-brand">&#x1F510; THE CRYPTOGRAPHER'S TOOLKIT</a>
+    <button class="nav-toggle" id="navToggle">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="pig-latin.html">DAY 1</a></li>
+      <li><a href="caesar.html">DAY 2</a></li>
+      <li><a href="keyword.html">DAY 3</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper" style="padding-top:60px;">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="container">
+      <h1>THE CRYPTOGRAPHER'S TOOLKIT</h1>
+      <p class="hero-subtitle">// A THREE-DAY MISSION IN STRING MANIPULATION</p>
+      <p style="color:#8b949e;max-width:600px;margin:1.5rem auto 0;font-size:0.95rem;line-height:1.8;">
+        Cryptography is the science of hiding information. For thousands of years, sending a secret message was a matter of life and death. Today you're going to learn how it works — and build your own encoder in Java.
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- WHAT IS CRYPTOGRAPHY -->
+    <div class="section-card" style="margin-top:2.5rem;">
+      <h2>What Is Cryptography?</h2>
+      <p>Every time you log into a website, every time your phone connects to WiFi, cryptography is running in the background — turning your data into scrambled nonsense that only the right key can unlock. Without it, anyone on the same network could read your passwords in plain text.</p>
+      <p>In this project you'll build three different ciphers, each one more powerful than the last. Each cipher also teaches you a new Java skill: string splitting, char arithmetic, and data lookup from a codebook.</p>
+      <p>By Day 3 you'll have a working multi-layer encoder. Not the kind that secures bank transactions — but built on the exact same fundamental ideas.</p>
+    </div>
+
+    <!-- MISSION CARDS -->
+    <h2 style="margin-bottom:1rem;">Your Missions</h2>
+    <div class="mission-grid">
+
+      <a href="pig-latin.html" class="mission-card">
+        <div class="mission-day">Mission 01 // Day 1</div>
+        <div class="mission-title">Pig Latin Encoder</div>
+        <div class="mission-desc">Learn <code>split()</code>, <code>charAt()</code>, and <code>substring()</code> by transforming every word in a message. Your first cipher — simple on the surface, surprisingly satisfying to code.</div>
+        <div style="margin-top:1rem;color:#00ff41;font-size:0.78rem;">START MISSION &rarr;</div>
+      </a>
+
+      <a href="caesar.html" class="mission-card">
+        <div class="mission-day">Mission 02 // Day 2</div>
+        <div class="mission-title">Caesar Cipher</div>
+        <div class="mission-desc">Julius Caesar used this 2,000 years ago. You'll learn char-to-int casting, ASCII values, and modular arithmetic to shift every letter through the alphabet.</div>
+        <div style="margin-top:1rem;color:#00ff41;font-size:0.78rem;">START MISSION &rarr;</div>
+      </a>
+
+      <a href="keyword.html" class="mission-card">
+        <div class="mission-day">Mission 03 // Day 3</div>
+        <div class="mission-title">Keyword Cipher</div>
+        <div class="mission-desc">The most powerful cipher yet. A secret codebook swaps entire words. Learn <code>equals()</code>, comma-splitting, and two-level parsing to encode and decode real messages.</div>
+        <div style="margin-top:1rem;color:#00ff41;font-size:0.78rem;">START MISSION &rarr;</div>
+      </a>
+
+    </div>
+
+    <!-- WHAT YOU'LL BUILD -->
+    <div class="section-card">
+      <h2>What You'll Build</h2>
+      <p>Over three days you'll write Java methods that can take a plain-text message and run it through multiple layers of encryption. Here's the full pipeline:</p>
+
+      <div class="word-array" style="margin:1.5rem 0;justify-content:center;align-items:center;">
+        <div class="word-box">Plain text</div>
+        <div class="arrow">&rarr;</div>
+        <div class="word-box">Pig Latin</div>
+        <div class="arrow">&rarr;</div>
+        <div class="word-box">Caesar Cipher</div>
+        <div class="arrow">&rarr;</div>
+        <div class="word-box">Keyword Swap</div>
+        <div class="arrow">&rarr;</div>
+        <div class="word-box amber">Encoded output</div>
+      </div>
+
+      <p>Your teacher will supply the text files and test your output against a known answer. Your job is to write the transformation logic for each step — the interesting part.</p>
+      <p>And when you're done: the encoded output looks like complete nonsense to anyone without your cipher chain. That's exactly the goal.</p>
+    </div>
+
+    <!-- CIPHER TEASER -->
+    <div class="section-card">
+      <h2>Can You Crack This?</h2>
+      <p style="color:#8b949e;font-size:0.88rem;">The message below was encoded with a Caesar cipher. By the end of Day 2, you'll know exactly how to decode it.</p>
+      <div class="teaser-box">
+        <p style="color:#8b949e;font-size:0.82rem;margin:0 0 0.4rem;">Encoded message (shift: 3)</p>
+        <div class="teaser-cipher" id="teaserCipher">KHOOR, IXWXUH FUBSWRJUDSKHU!</div>
+        <p style="color:#8b949e;font-size:0.78rem;margin:0.5rem 0 0;">Come back after Day 2 to check your answer — or peek now.</p>
+      </div>
+      <div style="text-align:center;margin-top:0.6rem;">
+        <button onclick="document.getElementById('teaserSpoiler').style.display='block';this.style.display='none';"
+                style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:0.8rem;font-family:var(--font);text-decoration:underline;">
+          [show decoded message]
+        </button>
+        <div id="teaserSpoiler" style="display:none;color:#00ff41;font-size:1.1rem;margin-top:0.6rem;letter-spacing:2px;animation:fadeIn 0.4s ease;">
+          HELLO, FUTURE CRYPTOGRAPHER!
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO USE THIS SITE -->
+    <div class="section-card">
+      <h2>How to Use This Site</h2>
+      <p>Each mission page has the same structure. Here's how to get the most out of it:</p>
+      <ol style="color:#c9d1d9;margin:1rem 0;">
+        <li><strong>Read the Concept section</strong> to understand what the cipher does and why it works.</li>
+        <li><strong>Use the Step-Through Visualizer</strong> to see the algorithm in action — one step at a time, with explanations.</li>
+        <li><strong>Try the Live Demo</strong> to experiment and build intuition before writing any code.</li>
+        <li><strong>When you're ready</strong>, head to the IDE Handoff box at the bottom and write it yourself.</li>
+      </ol>
+      <p style="color:#8b949e;font-size:0.9rem;margin:0;">Each page works independently — but the Java skills build on each other, so the Day 1 → Day 2 → Day 3 order makes sense.</p>
+    </div>
+
+    <!-- SKILLS TABLE -->
+    <div class="section-card">
+      <h2>Java Skills by Day</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;" class="skills-grid">
+
+        <div>
+          <h3 style="margin-top:0;">Day 1 — Pig Latin</h3>
+          <ul style="color:#8b949e;font-size:0.88rem;list-style:none;padding:0;">
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>split(" ")</code></li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>charAt(0)</code></li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>substring(1)</code></li>
+            <li style="padding:0.3rem 0;">String concatenation</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin-top:0;">Day 2 — Caesar Cipher</h3>
+          <ul style="color:#8b949e;font-size:0.88rem;list-style:none;padding:0;">
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>charAt(i)</code> in a loop</li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>(int)</code> and <code>(char)</code> casting</li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;">ASCII values (A = 65)</li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;">Modular arithmetic <code>% 26</code></li>
+            <li style="padding:0.3rem 0;"><code>Character.isLetter()</code></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin-top:0;">Day 3 — Keyword Cipher</h3>
+          <ul style="color:#8b949e;font-size:0.88rem;list-style:none;padding:0;">
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>split(",")</code></li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;"><code>equals()</code> vs <code>==</code></li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;">ArrayList traversal</li>
+            <li style="padding:0.3rem 0;border-bottom:1px solid #30363d;">Two-level parsing</li>
+            <li style="padding:0.3rem 0;">Boolean flags</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /page-wrapper -->
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  hljs.highlightAll();
+</script>
+
+<style>
+  @media (max-width: 640px) {
+    .skills-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 1: Pig Latin | The Cryptographer's Toolkit</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-brand">&#x1F510; THE CRYPTOGRAPHER'S TOOLKIT</a>
+    <button class="nav-toggle" id="navToggle">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="pig-latin.html" class="active">DAY 1</a></li>
+      <li><a href="caesar.html">DAY 2</a></li>
+      <li><a href="keyword.html">DAY 3</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<div class="container">
+
+  <div class="page-header">
+    <span class="mission-label">Mission 01 // Day 1</span>
+    <h1>Pig Latin Encoder</h1>
+    <p style="color:#8b949e;margin:0.5rem 0 0;">Your first cipher. Simple, but it requires real string manipulation — split, charAt, substring. Let's break it down step by step.</p>
+  </div>
+
+  <!-- SECTION 1: CONCEPT -->
+  <div class="section-card">
+    <h2>What Is Pig Latin?</h2>
+    <p>Pig Latin is a made-up language where you take each word, move its first letter to the end, and add "ay". It's not a secure cipher, but it's a perfect first exercise — it forces you to pull apart a String and put it back together in a different order.</p>
+    <p>The same three steps work for every word:</p>
+
+    <div class="highlight-box">
+      <p style="color:#fff;margin-bottom:0.8rem;font-weight:bold;">Example: "hello" &rarr; "ellohay"</p>
+      <div class="word-array" style="margin-bottom:0.5rem;">
+        <span class="arrow">Step 1:</span>
+        <span style="color:#8b949e;">Take the first letter &mdash;</span>
+        <div class="word-box"><span style="color:#00ff41;">'h'</span></div>
+        <span style="color:#8b949e;">&larr; that's <code>charAt(0)</code></span>
+      </div>
+      <div class="word-array" style="margin-bottom:0.5rem;">
+        <span class="arrow">Step 2:</span>
+        <span style="color:#8b949e;">Take everything after it &mdash;</span>
+        <div class="word-box"><span style="color:#00ff41;">"ello"</span></div>
+        <span style="color:#8b949e;">&larr; that's <code>substring(1)</code></span>
+      </div>
+      <div class="word-array">
+        <span class="arrow">Step 3:</span>
+        <span style="color:#8b949e;">Reassemble &mdash;</span>
+        <div class="word-box">"ello"</div>
+        <span style="color:#8b949e;">+</span>
+        <div class="word-box">"h"</div>
+        <span style="color:#8b949e;">+</span>
+        <div class="word-box">"ay"</div>
+        <span class="arrow">&rarr;</span>
+        <div class="word-box amber">"ellohay"</div>
+      </div>
+    </div>
+
+    <p style="margin-top:1rem;">Another example: "cryptography" &rarr; "ryptographycay". That's it — three steps, every word. Easy to describe, genuinely useful to code.</p>
+  </div>
+
+  <!-- SECTION 2: METHOD SPOTLIGHT -->
+  <div class="section-card">
+    <h2>Java Methods You'll Use</h2>
+
+    <h3>split(" ")</h3>
+    <p>When you call <code>split(" ")</code> on a String, Java cuts it up at every space and gives you back an array of the individual words.</p>
+    <pre><code class="language-java">String sentence = "hello world";
+String[] words = sentence.split(" ");
+// words[0] is "hello"
+// words[1] is "world"
+// words.length is 2</code></pre>
+    <div class="word-array">
+      <div class="word-box">hello <span style="color:#8b949e;font-size:0.7rem;">[0]</span></div>
+      <div class="word-box">world <span style="color:#8b949e;font-size:0.7rem;">[1]</span></div>
+    </div>
+
+    <h3>charAt(0)</h3>
+    <p>Every character in a String has a numbered position. The first one is always index 0. <code>charAt(0)</code> reaches into position 0 and gives you that character.</p>
+    <p>Think of a String as a row of labeled boxes — here's "hello":</p>
+
+    <div class="char-display" id="charBoxDemo1"></div>
+    <p style="color:#8b949e;font-size:0.88rem;margin-top:0.3rem;"><code>charAt(0)</code> returns <span style="color:#00ff41;">'h'</span> — the character in box 0.</p>
+
+    <h3>substring(1)</h3>
+    <p><code>substring(1)</code> gives you all the characters starting from index 1 — which is everything except the first letter. Think of it as "skip box 0, give me the rest."</p>
+
+    <div class="char-display" id="charBoxDemo2"></div>
+    <p style="color:#8b949e;font-size:0.88rem;margin-top:0.3rem;"><code>substring(1)</code> returns <span style="color:#00ff41;">"ello"</span> — the dimmed letter is skipped.</p>
+  </div>
+
+  <!-- SECTION 3: STEP-THROUGH VISUALIZER -->
+  <div class="section-card">
+    <h2>Step-Through Visualizer</h2>
+    <p style="color:#8b949e;font-size:0.9rem;">Type a word and click "Next Step" to watch the Pig Latin transformation happen one step at a time.</p>
+
+    <div class="step-visualizer">
+      <div class="step-controls">
+        <div>
+          <label class="demo-label" for="vizWord">Word to transform:</label>
+          <input type="text" class="step-input" id="vizWord" value="cryptography" placeholder="Enter a word" maxlength="15">
+        </div>
+        <div style="display:flex;gap:0.6rem;align-items:flex-end;">
+          <button class="btn" id="stepBtn">Next Step &rarr;</button>
+          <button class="btn btn-sm btn-amber" id="resetBtn">Reset</button>
+        </div>
+      </div>
+      <div class="step-counter" id="stepCounter">Step 0 of 3 &mdash; Ready</div>
+      <div id="vizDisplay" class="char-display"></div>
+      <div class="step-explanation" id="vizExplanation">Enter a word above and click "Next Step" to begin.</div>
+      <div class="step-result" id="vizResult"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: LIVE DEMO -->
+  <div class="section-card">
+    <h2>Live Demo</h2>
+    <p style="color:#8b949e;font-size:0.9rem;">Type a full sentence and watch every word get converted to Pig Latin in real time.</p>
+    <div class="live-demo">
+      <label class="demo-label" for="demoInput">Type a sentence:</label>
+      <input type="text" class="demo-input" id="demoInput" placeholder="hello world" style="margin-bottom:1rem;">
+      <label class="demo-label">Pig Latin output:</label>
+      <div class="demo-output" id="demoOutput">Your output will appear here...</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: QUIZ -->
+  <div class="section-card">
+    <h2>Check Your Understanding</h2>
+
+    <div class="quiz-question">
+      <p>1. What does <code>split(" ")</code> return when given the String <code>"hello world"</code>?</p>
+      <div class="quiz-options" id="q1-options">
+        <label class="quiz-option"><input type="radio" name="q1" value="A"> A) The String <code>"helloworld"</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="B"> B) An array containing <code>"hello"</code> and <code>"world"</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="C"> C) The number <code>2</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="D"> D) A single String with spaces removed</label>
+      </div>
+      <div class="quiz-feedback" id="q1-feedback"></div>
+    </div>
+
+    <div class="quiz-question">
+      <p>2. What is <code>charAt(0)</code> of the String <code>"cryptography"</code>?</p>
+      <div class="quiz-options" id="q2-options">
+        <label class="quiz-option"><input type="radio" name="q2" value="A"> A) The character <code>'y'</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="B"> B) The character <code>'c'</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="C"> C) The number <code>0</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="D"> D) The String <code>"crypt"</code></label>
+      </div>
+      <div class="quiz-feedback" id="q2-feedback"></div>
+    </div>
+
+    <div class="quiz-question">
+      <p>3. What does <code>substring(1)</code> return for the String <code>"java"</code>?</p>
+      <div class="quiz-options" id="q3-options">
+        <label class="quiz-option"><input type="radio" name="q3" value="A"> A) The String <code>"j"</code></label>
+        <label class="quiz-option"><input type="radio" name="q3" value="B"> B) The String <code>"ava"</code></label>
+        <label class="quiz-option"><input type="radio" name="q3" value="C"> C) The String <code>"java"</code></label>
+        <label class="quiz-option"><input type="radio" name="q3" value="D"> D) The character <code>'a'</code></label>
+      </div>
+      <div class="quiz-feedback" id="q3-feedback"></div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 6: IDE HANDOFF -->
+  <div class="section-card amber-accent ide-task">
+    <div class="ide-task-header">// Mission Complete &mdash; Now Open Your IDE</div>
+    <h3>Your Task</h3>
+
+    <p>Write a method <code>pigLatinWord(String word)</code>. You should be able to pass in any word and get back the Pig Latin version.</p>
+    <p style="color:#8b949e;font-size:0.9rem;">Use the tester below to check your output — type a word, see what the correct answer is, then run your method in Processing and compare.</p>
+
+    <div style="margin-top:1.2rem;">
+      <label class="demo-label" for="taskWordInput">Enter a word:</label>
+      <div style="display:flex;gap:0.7rem;align-items:center;margin-top:0.4rem;flex-wrap:wrap;">
+        <input type="text" class="step-input" id="taskWordInput" placeholder="hello" style="width:200px;">
+        <span style="color:#8b949e;font-size:0.9rem;">&rarr;</span>
+        <div id="taskWordOutput" style="color:#00ff41;font-size:1.1rem;font-family:monospace;min-width:120px;">&mdash;</div>
+      </div>
+    </div>
+
+    <div class="hints-container" style="margin-top:1.5rem;">
+      <button class="hints-toggle" id="hintsToggle1" onclick="toggleHints('hintsToggle1','hintsContent1')">
+        Show Hints
+      </button>
+      <div class="hints-content" id="hintsContent1">
+        <div class="hint-item">You need three things: the first letter (<code>charAt(0)</code>), everything after it (<code>substring(1)</code>), and the string <code>"ay"</code>. Put them together with <code>+</code>.</div>
+        <div class="hint-item"><code>charAt(0)</code> returns a <code>char</code>, not a <code>String</code>. Java will still let you concatenate it with <code>+</code>, but you can also write <code>String.valueOf(word.charAt(0))</code> to be explicit.</div>
+        <div class="hint-item">Test with a single-letter word like <code>"a"</code>. What should <code>substring(1)</code> return on a one-character string? (It returns an empty string — and that's fine!)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRETCH GOAL -->
+  <div class="section-card" style="border-left-color:#30363d;">
+    <div style="color:#8b949e;font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem;">// Stretch Goal</div>
+    <h3 style="color:#8b949e;">pigLatinSentence(String sentence)</h3>
+    <p style="color:#8b949e;">Once <code>pigLatinWord</code> works, try writing a method that converts a whole sentence — split it into words, run each word through your method, and join them back together.</p>
+    <p style="color:#8b949e;font-size:0.88rem;">Use the tester below to see what the output should look like.</p>
+
+    <div style="margin-top:1.2rem;">
+      <label class="demo-label" for="taskSentenceInput" style="color:#8b949e;">Enter a sentence:</label>
+      <div style="margin-top:0.4rem;">
+        <input type="text" class="step-input" id="taskSentenceInput" placeholder="hello world" style="width:100%;max-width:420px;">
+        <div id="taskSentenceOutput" style="color:#8b949e;font-size:1rem;font-family:monospace;margin-top:0.6rem;min-height:1.4rem;">&mdash;</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /page-wrapper -->
+
+<script>
+// ── Nav toggle ───────────────────────────────────────────────
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ── Hints toggle helper ──────────────────────────────────────
+function toggleHints(btnId, contentId) {
+  document.getElementById(btnId).classList.toggle('open');
+  document.getElementById(contentId).classList.toggle('open');
+}
+
+// ── Char-box builder ─────────────────────────────────────────
+function renderCharBoxes(word, highlightSet, dimSet) {
+  var html = '';
+  for (var i = 0; i < word.length; i++) {
+    var cls = 'char-box';
+    if (highlightSet && highlightSet.indexOf(i) !== -1) cls += ' highlight';
+    if (dimSet && dimSet.indexOf(i) !== -1) cls += ' dim';
+    html += '<div class="' + cls + '">';
+    html += '<span class="char-letter">' + word[i] + '</span>';
+    html += '<span class="char-index">' + i + '</span>';
+    html += '</div>';
+  }
+  return html;
+}
+
+// ── Static char-box demos ────────────────────────────────────
+(function() {
+  var w = 'hello';
+  // Demo 1: charAt(0) highlighted
+  document.getElementById('charBoxDemo1').innerHTML = renderCharBoxes(w, [0], []);
+  // Demo 2: substring(1) — index 0 dimmed, rest highlighted
+  document.getElementById('charBoxDemo2').innerHTML = renderCharBoxes(w, [1,2,3,4], [0]);
+})();
+
+// ── Step-through visualizer ──────────────────────────────────
+var currentStep = 0;
+var maxSteps = 3;
+
+function getWord() {
+  return document.getElementById('vizWord').value.trim().toLowerCase() || 'hello';
+}
+
+function resetViz() {
+  currentStep = 0;
+  var word = getWord();
+  document.getElementById('stepCounter').textContent = 'Step 0 of 3 — Ready';
+  document.getElementById('vizDisplay').innerHTML = renderCharBoxes(word, [], []);
+  document.getElementById('vizExplanation').textContent = 'Click "Next Step" to start breaking down the word.';
+  document.getElementById('vizResult').textContent = '';
+  document.getElementById('stepBtn').textContent = 'Next Step →';
+}
+
+document.getElementById('vizWord').addEventListener('input', resetViz);
+document.getElementById('resetBtn').addEventListener('click', resetViz);
+
+document.getElementById('stepBtn').addEventListener('click', function() {
+  if (currentStep >= maxSteps) { resetViz(); return; }
+  currentStep++;
+  var word = getWord();
+  var first = word.charAt(0);
+  var rest = word.substring(1);
+  var result = rest + first + 'ay';
+  var display = document.getElementById('vizDisplay');
+  var expl = document.getElementById('vizExplanation');
+  var res = document.getElementById('vizResult');
+  var counter = document.getElementById('stepCounter');
+
+  if (currentStep === 1) {
+    counter.textContent = 'Step 1 of 3 — charAt(0)';
+    display.innerHTML = renderCharBoxes(word, [0], []);
+    expl.textContent = 'charAt(0) picks out the letter at index 0 — that\'s \'' + first + '\'. This is the letter we\'re going to move to the end.';
+    res.textContent = '';
+  } else if (currentStep === 2) {
+    counter.textContent = 'Step 2 of 3 — substring(1)';
+    var hi = [];
+    for (var i = 1; i < word.length; i++) hi.push(i);
+    display.innerHTML = renderCharBoxes(word, hi, [0]);
+    expl.textContent = 'substring(1) gives us everything from index 1 onward — that\'s "' + rest + '". The dimmed letter gets moved, not deleted.';
+    res.textContent = '';
+  } else if (currentStep === 3) {
+    counter.textContent = 'Step 3 of 3 — Assemble!';
+    display.innerHTML = renderCharBoxes(result, Array.from({length: result.length}, function(_, i){ return i; }), []);
+    expl.textContent = 'Reassemble: "' + rest + '" + "' + first + '" + "ay" = "' + result + '". Done! Nice work — you just used charAt and substring!';
+    res.textContent = '"' + word + '" → "' + result + '"';
+    document.getElementById('stepBtn').textContent = 'Try Again ↺';
+  }
+});
+
+// Init
+resetViz();
+
+// ── Live demo ────────────────────────────────────────────────
+function pigLatinWord(word) {
+  if (!word || word.length === 0) return word;
+  return word.substring(1) + word.charAt(0) + 'ay';
+}
+
+document.getElementById('demoInput').addEventListener('input', function() {
+  var val = this.value;
+  if (!val.trim()) {
+    document.getElementById('demoOutput').textContent = 'Your output will appear here...';
+    return;
+  }
+  var out = val.split(' ').map(function(w) {
+    return w.length > 0 ? pigLatinWord(w) : w;
+  }).join(' ');
+  document.getElementById('demoOutput').textContent = out;
+});
+
+// ── Quiz ─────────────────────────────────────────────────────
+var quizAnswers = { q1: 'B', q2: 'B', q3: 'B' };
+var quizFeedback = {
+  q1: {
+    correct: '✓ Correct! split(" ") cuts at every space and returns an array — one element per word.',
+    incorrect: '✗ Not quite. split(" ") returns a String array, one element per word. Try again!'
+  },
+  q2: {
+    correct: '✓ Correct! charAt(0) always gives you the very first character — index 0 is always the start.',
+    incorrect: '✗ Not quite. charAt(0) means "give me the character at position 0" — that\'s the first one. Try again!'
+  },
+  q3: {
+    correct: '✓ Correct! substring(1) skips index 0 and gives you everything from index 1 to the end.',
+    incorrect: '✗ Not quite. substring(1) starts at index 1 (skipping the first character) and goes to the end. Try again!'
+  }
+};
+
+['q1','q2','q3'].forEach(function(q) {
+  var opts = document.querySelectorAll('input[name="' + q + '"]');
+  opts.forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var fb = document.getElementById(q + '-feedback');
+      var isCorrect = this.value === quizAnswers[q];
+      fb.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+      fb.textContent = isCorrect ? quizFeedback[q].correct : quizFeedback[q].incorrect;
+      // Style the selected option
+      var labels = document.querySelectorAll('#' + q + '-options .quiz-option');
+      labels.forEach(function(lbl) { lbl.classList.remove('correct','incorrect'); });
+      this.closest('.quiz-option').classList.add(isCorrect ? 'correct' : 'incorrect');
+    });
+  });
+});
+
+// ── Task testers ─────────────────────────────────────────────
+document.getElementById('taskWordInput').addEventListener('input', function() {
+  var w = this.value.trim();
+  document.getElementById('taskWordOutput').textContent = w.length > 0 ? pigLatinWord(w) : '—';
+});
+
+document.getElementById('taskSentenceInput').addEventListener('input', function() {
+  var s = this.value.trim();
+  if (!s) { document.getElementById('taskSentenceOutput').textContent = '—'; return; }
+  var out = s.split(' ').map(function(w) { return w.length > 0 ? pigLatinWord(w) : w; }).join(' ');
+  document.getElementById('taskSentenceOutput').textContent = out;
+});
+
+// ── Syntax highlight ─────────────────────────────────────────
+hljs.highlightAll();
+</script>
+
+</body>
+</html>

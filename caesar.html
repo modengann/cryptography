@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 2: Caesar Cipher | The Cryptographer's Toolkit</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-brand">&#x1F510; THE CRYPTOGRAPHER'S TOOLKIT</a>
+    <button class="nav-toggle" id="navToggle">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="pig-latin.html">DAY 1</a></li>
+      <li><a href="caesar.html" class="active">DAY 2</a></li>
+      <li><a href="keyword.html">DAY 3</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+<div class="container">
+
+  <div class="page-header">
+    <span class="mission-label">Mission 02 // Day 2</span>
+    <h1>Caesar Cipher</h1>
+    <p style="color:#8b949e;margin:0.5rem 0 0;">Julius Caesar used this exact trick 2,000 years ago. Today you'll crack it — and learn how casting, ASCII values, and modular arithmetic make it work in Java.</p>
+  </div>
+
+  <!-- SECTION 1: CONCEPT -->
+  <div class="section-card">
+    <h2>The Shift Idea</h2>
+    <p>Julius Caesar sent secret messages to his generals by shifting every letter in the alphabet by a fixed number. With a shift of 3: A becomes D, B becomes E — and when you hit the end, it wraps: X becomes A, Y becomes B, Z becomes C.</p>
+    <p>The shift number is the key. Without it, you can't decode the message.</p>
+
+    <div style="margin:1.5rem 0;">
+      <label class="demo-label">Alphabet shift visualization (shift = 3):</label>
+      <div style="margin-top:0.6rem;">
+        <div id="alphaOriginal" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;"></div>
+        <div style="font-size:0.65rem;color:#8b949e;letter-spacing:1px;margin-bottom:4px;margin-left:2px;">ORIGINAL &darr;&nbsp;&nbsp;SHIFTED &darr;</div>
+        <div id="alphaShifted" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+      </div>
+    </div>
+
+    <p>In Java, we do this mathematically using the ASCII values of characters — every letter is secretly a number.</p>
+  </div>
+
+  <!-- SECTION 2: METHOD SPOTLIGHT -->
+  <div class="section-card">
+    <h2>Java Concepts You'll Use</h2>
+
+    <h3>charAt(i) in a Loop</h3>
+    <p>To encode a whole message, you loop over every character one at a time. <code>charAt(i)</code> grabs the character at position <code>i</code>.</p>
+    <pre><code class="language-java">String message = "HELLO";
+for (int i = 0; i &lt; message.length(); i++) {
+    char c = message.charAt(i);  // grab one character at a time
+    // ... do something with c
+}</code></pre>
+
+    <h3>Casting: char &harr; int</h3>
+    <p>Every character has a number behind it — its ASCII value. <code>'A'</code> is 65, <code>'B'</code> is 66, ... <code>'Z'</code> is 90. You can convert between them by casting.</p>
+    <pre><code class="language-java">int ascii  = (int) 'A';    // ascii  = 65
+char letter = (char) 66;   // letter = 'B'
+
+// The alphabet-position trick: subtract 'A' to get 0–25
+int pos = (int)'E' - (int)'A';   // pos = 4  (E is the 5th letter, index 4)</code></pre>
+
+    <label class="demo-label" style="margin-top:1rem;display:block;">ASCII reference — uppercase letters:</label>
+    <div class="two-col" style="margin-top:0.5rem;">
+      <table class="ascii-table">
+        <thead><tr><th>Letter</th><th>ASCII</th></tr></thead>
+        <tbody id="asciiTableA"></tbody>
+      </table>
+      <table class="ascii-table">
+        <thead><tr><th>Letter</th><th>ASCII</th></tr></thead>
+        <tbody id="asciiTableB"></tbody>
+      </table>
+    </div>
+
+    <h3>Mod 26 — Wrapping Around</h3>
+    <p><code>%</code> (mod) gives you the remainder after division. <code>27 % 26 = 1</code>. This is what makes the alphabet wrap around — just like a clock wraps from 12 back to 1.</p>
+    <p style="color:#8b949e;font-size:0.9rem;">Clock analogy: if it's 11 o'clock and you add 3 hours, you get 2 o'clock (not 14). <code>% 26</code> does the same thing for the alphabet.</p>
+    <pre><code class="language-java">// Encoding 'Y' with shift 3:
+// Y = position 24
+// 24 + 3 = 27
+// 27 % 26 = 1   &lt;-- wraps around the alphabet!
+// position 1 = 'B'
+// So 'Y' --&gt; 'B'</code></pre>
+
+    <h3>The Full Formula</h3>
+    <pre><code class="language-java">// Encoding one uppercase letter with a given shift:
+int pos     = (int)c - (int)'A';        // step 1: get position 0-25
+int shifted = (pos + shift) % 26;       // step 2: shift and wrap
+char result = (char)(shifted + 'A');    // step 3: back to a character
+
+// For decoding (shift backwards), the +26 prevents negative numbers:
+int shifted = (pos - shift + 26) % 26;</code></pre>
+
+    <h3>Passing Non-Letters Through</h3>
+    <p>Spaces, punctuation, numbers — we don't touch those. <code>Character.isLetter(c)</code> tells you if a character is a letter.</p>
+    <pre><code class="language-java">if (Character.isLetter(c)) {
+    // apply the cipher
+} else {
+    encodedLine += c;  // pass through unchanged
+}</code></pre>
+  </div>
+
+  <!-- SECTION 3: STEP-THROUGH VISUALIZER -->
+  <div class="section-card">
+    <h2>Step-Through Visualizer</h2>
+    <p style="color:#8b949e;font-size:0.9rem;">Enter an uppercase letter and a shift value, then step through the encoding process one stage at a time.</p>
+
+    <div class="step-visualizer">
+      <div class="step-controls">
+        <div>
+          <label class="demo-label" for="vizChar">Character (A–Z):</label>
+          <input type="text" class="step-input" id="vizChar" value="Y" maxlength="1" style="width:60px;text-transform:uppercase;">
+        </div>
+        <div>
+          <label class="demo-label" for="vizShift">Shift:</label>
+          <input type="number" class="step-input" id="vizShift" value="3" min="1" max="25" style="width:72px;">
+        </div>
+        <div style="display:flex;gap:0.6rem;align-items:flex-end;">
+          <button class="btn" id="stepBtn">Next Step &rarr;</button>
+          <button class="btn btn-sm btn-amber" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="step-counter" id="stepCounter">Step 0 of 5 &mdash; Ready</div>
+      <div id="vizDisplay" style="margin:1rem 0;min-height:70px;display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;"></div>
+      <div class="step-explanation" id="vizExplanation">Enter a letter (A–Z) and a shift value, then click "Next Step".</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: LIVE DEMO -->
+  <div class="section-card">
+    <h2>Live Demo</h2>
+    <p style="color:#8b949e;font-size:0.9rem;">Type a message and move the shift slider. Toggle between Encode and Decode to see both directions.</p>
+
+    <div class="live-demo">
+      <div class="decode-toggle">
+        <button class="toggle-btn active" id="encodeBtn" onclick="setMode('encode')">Encode</button>
+        <button class="toggle-btn" id="decodeBtn" onclick="setMode('decode')">Decode</button>
+      </div>
+      <label class="demo-label" for="demoInput">Your message:</label>
+      <input type="text" class="demo-input" id="demoInput" placeholder="Hello, World!" style="margin-bottom:1rem;">
+      <div class="slider-row" style="margin-bottom:1rem;">
+        <label class="demo-label" style="margin:0;white-space:nowrap;">Shift:</label>
+        <input type="range" id="shiftSlider" min="1" max="25" value="13">
+        <span class="slider-value" id="shiftDisplay">13</span>
+      </div>
+      <label class="demo-label" id="outputLabel">Encoded output:</label>
+      <div class="demo-output" id="demoOutput">Your output will appear here...</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: QUIZ -->
+  <div class="section-card">
+    <h2>Check Your Understanding</h2>
+
+    <div class="quiz-question">
+      <p>1. What is the alphabet position of the letter <code>'E'</code>? (Remember: A = 0, B = 1, C = 2...)</p>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q1" value="A"> A) 5</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="B"> B) 4</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="C"> C) 69 (its ASCII value)</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="D"> D) 1</label>
+      </div>
+      <div class="quiz-feedback" id="q1-feedback"></div>
+    </div>
+
+    <div class="quiz-question">
+      <p>2. If you shift the letter <code>'Y'</code> forward by 3, what do you get?</p>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q2" value="A"> A) 'Y'</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="B"> B) 'Z'</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="C"> C) 'B'</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="D"> D) '\\'</label>
+      </div>
+      <div class="quiz-feedback" id="q2-feedback"></div>
+    </div>
+
+    <div class="quiz-question">
+      <p>3. Why do we use <code>% 26</code> in the Caesar cipher formula?</p>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q3" value="A"> A) To convert characters to numbers</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="B"> B) To make sure our position stays within 0–25 when it wraps past 'Z'</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="C"> C) To skip non-letter characters</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="D"> D) Because Java requires it for char arithmetic</label>
+      </div>
+      <div class="quiz-feedback" id="q3-feedback"></div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 6: IDE HANDOFF -->
+  <div class="section-card amber-accent ide-task">
+    <div class="ide-task-header">// Mission Complete &mdash; Now Open Your IDE</div>
+    <h3>Your Task</h3>
+    <p>Write two methods: one to encode a Caesar cipher, one to decode it. Your teacher will provide the ArrayList of lines and the shift value.</p>
+
+<pre><code class="language-java">// Encodes every letter in every line by the given shift
+// Non-letter characters (spaces, punctuation) pass through unchanged
+public ArrayList&lt;String&gt; caesarEncode(ArrayList&lt;String&gt; lines, int shift) {
+    ArrayList&lt;String&gt; result = new ArrayList&lt;String&gt;();
+
+    for (String line : lines) {
+        String encodedLine = "";
+
+        for (int i = 0; i &lt; line.length(); i++) {
+            char c = line.charAt(i);   // grab one character at a time
+
+            if (Character.isLetter(c)) {
+                // Figure out if it's uppercase or lowercase
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+
+                // Get the alphabet position (0-25)
+                int pos = (int)c - (int)base;
+
+                // Shift it and wrap with % 26
+                int shifted = (pos + shift) % 26;
+
+                // Convert back to a character and add to the line
+                encodedLine += (char)(shifted + (int)base);
+            } else {
+                encodedLine += c;   // spaces and punctuation stay as-is
+            }
+        }
+
+        result.add(encodedLine);
+    }
+
+    return result;
+}
+
+// Decodes by shifting backwards
+// The +26 prevents negative numbers when shift &gt; pos
+public ArrayList&lt;String&gt; caesarDecode(ArrayList&lt;String&gt; lines, int shift) {
+    ArrayList&lt;String&gt; result = new ArrayList&lt;String&gt;();
+
+    for (String line : lines) {
+        String decodedLine = "";
+
+        for (int i = 0; i &lt; line.length(); i++) {
+            char c = line.charAt(i);
+
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c) ? 'A' : 'a';
+                int pos = (int)c - (int)base;
+                // TODO: shift backward — use (pos - shift + 26) % 26
+                int shifted = (pos - shift + 26) % 26;
+                decodedLine += (char)(shifted + (int)base);
+            } else {
+                decodedLine += c;
+            }
+        }
+
+        result.add(decodedLine);
+    }
+
+    return result;
+}</code></pre>
+
+    <div class="gotcha-box">
+      <strong>// Gotcha to watch for:</strong>
+      <p style="margin:0.5rem 0 0;color:#c9d1d9;">Lowercase letters! <code>'a'</code> is ASCII 97, not 65. If you only handle uppercase, lowercase letters will come out garbled. The code above uses <code>Character.isUpperCase(c)</code> to pick the right base — make sure you do the same.</p>
+    </div>
+
+    <div class="hints-container">
+      <button class="hints-toggle" id="hintsToggle1" onclick="toggleHints('hintsToggle1','hintsContent1')">
+        Show Hints
+      </button>
+      <div class="hints-content" id="hintsContent1">
+        <div class="hint-item">For uppercase: <code>base = 'A'</code> (ASCII 65). For lowercase: <code>base = 'a'</code> (ASCII 97). Always subtract and add back the same base.</div>
+        <div class="hint-item">Test edge cases first. What does encoding 'Z' with shift 1 give? Should be 'A'. What about encoding 'z' with shift 1? Should be 'a'. Try those manually before writing the loop.</div>
+        <div class="hint-item">For better performance, consider using a <code>StringBuilder</code> instead of <code>encodedLine += c</code>. String concatenation in a loop creates a new object every time; StringBuilder is much faster on long messages.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /page-wrapper -->
+
+<script>
+// ── Nav toggle ───────────────────────────────────────────────
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ── Hints helper ─────────────────────────────────────────────
+function toggleHints(btnId, contentId) {
+  document.getElementById(btnId).classList.toggle('open');
+  document.getElementById(contentId).classList.toggle('open');
+}
+
+// ── Alphabet shift visual ────────────────────────────────────
+(function buildAlphaVisual() {
+  var SHIFT = 3;
+  var alpha = document.getElementById('alphaOriginal');
+  var shifted = document.getElementById('alphaShifted');
+  for (var i = 0; i < 26; i++) {
+    var letter = String.fromCharCode(65 + i);
+    var shiftedLetter = String.fromCharCode(65 + ((i + SHIFT) % 26));
+    var o = document.createElement('div');
+    o.className = 'char-box';
+    o.innerHTML = '<span class="char-letter">' + letter + '</span>';
+    alpha.appendChild(o);
+
+    var s = document.createElement('div');
+    s.className = 'char-box' + (i < 3 ? ' amber-highlight' : ' highlight');
+    s.innerHTML = '<span class="char-letter">' + shiftedLetter + '</span>';
+    shifted.appendChild(s);
+  }
+})();
+
+// ── ASCII table ──────────────────────────────────────────────
+(function buildAsciiTables() {
+  var tbA = document.getElementById('asciiTableA');
+  var tbB = document.getElementById('asciiTableB');
+  for (var i = 0; i < 26; i++) {
+    var letter = String.fromCharCode(65 + i);
+    var ascii = 65 + i;
+    var tr = '<tr><td>' + letter + '</td><td>' + ascii + '</td></tr>';
+    if (i < 13) tbA.innerHTML += tr;
+    else tbB.innerHTML += tr;
+  }
+})();
+
+// ── Step visualizer ──────────────────────────────────────────
+var vizStep = 0;
+
+function getVizInputs() {
+  var raw = document.getElementById('vizChar').value.toUpperCase().trim();
+  var c = (raw && /[A-Z]/.test(raw)) ? raw[0] : 'A';
+  var shift = parseInt(document.getElementById('vizShift').value, 10);
+  shift = isNaN(shift) ? 3 : Math.max(1, Math.min(25, shift));
+  return { c: c, shift: shift };
+}
+
+function makeBox(letter, cls, label) {
+  var el = document.createElement('div');
+  el.className = 'char-box ' + (cls || '');
+  el.innerHTML = '<span class="char-letter">' + letter + '</span>';
+  if (label) {
+    var lbl = document.createElement('span');
+    lbl.className = 'char-index';
+    lbl.style.cssText = 'position:static;font-size:0.6rem;color:#8b949e;';
+    lbl.textContent = label;
+    el.appendChild(lbl);
+    el.style.height = '64px';
+  }
+  return el;
+}
+
+function makeText(text, color) {
+  var span = document.createElement('span');
+  span.style.cssText = 'color:' + (color || '#8b949e') + ';font-size:0.95rem;';
+  span.textContent = text;
+  return span;
+}
+
+function renderStep() {
+  var inp = getVizInputs();
+  var c = inp.c;
+  var shift = inp.shift;
+  var ascii = c.charCodeAt(0);
+  var pos = ascii - 65;
+  var raw = pos + shift;
+  var finalPos = raw % 26;
+  var wraps = raw >= 26;
+  var resultChar = String.fromCharCode(finalPos + 65);
+  var display = document.getElementById('vizDisplay');
+  var expl = document.getElementById('vizExplanation');
+  var counter = document.getElementById('stepCounter');
+  var btn = document.getElementById('stepBtn');
+
+  display.innerHTML = '';
+  counter.textContent = 'Step ' + vizStep + ' of 5';
+
+  if (vizStep === 0) {
+    counter.textContent = 'Step 0 of 5 — Ready';
+    display.appendChild(makeBox(c, 'highlight', 'char'));
+    expl.textContent = 'Starting with: \'' + c + '\' — let\'s encode it with a shift of ' + shift + '.';
+    btn.textContent = 'Next Step →';
+  } else if (vizStep === 1) {
+    display.appendChild(makeBox(c, 'highlight', 'char'));
+    display.appendChild(makeText('→'));
+    display.appendChild(makeBox(String(ascii), 'amber-highlight', 'ASCII'));
+    expl.textContent = 'The ASCII value of \'' + c + '\' is ' + ascii + '. Java stores characters as numbers — (int)\'' + c + '\' gives us ' + ascii + '.';
+  } else if (vizStep === 2) {
+    display.appendChild(makeText(ascii + ' − 65 =', '#c9d1d9'));
+    display.appendChild(makeBox(String(pos), 'highlight', '0–25'));
+    expl.textContent = 'Subtract 65 (the ASCII of \'A\') to get the alphabet position. \'' + c + '\' is letter number ' + pos + ' (counting from 0).';
+  } else if (vizStep === 3) {
+    display.appendChild(makeText(pos + ' + ' + shift + ' =', '#c9d1d9'));
+    var rawBox = makeBox(String(raw), wraps ? 'amber-highlight' : 'highlight', wraps ? '>25!' : 'raw');
+    display.appendChild(rawBox);
+    if (wraps) {
+      expl.textContent = 'We got ' + raw + ', which is bigger than 25 — that means we need to wrap around! This is where % 26 saves us.';
+    } else {
+      expl.textContent = 'Add the shift: ' + pos + ' + ' + shift + ' = ' + raw + '. Still in range 0–25, no wrapping needed.';
+    }
+  } else if (vizStep === 4) {
+    display.appendChild(makeText(raw + ' % 26 =', '#c9d1d9'));
+    var modBox = makeBox(String(finalPos), 'highlight', 'final');
+    display.appendChild(modBox);
+    if (wraps) {
+      expl.textContent = '% 26 gives the remainder: ' + raw + ' % 26 = ' + finalPos + '. The alphabet wrapped back to position ' + finalPos + '.';
+    } else {
+      expl.textContent = raw + ' % 26 = ' + finalPos + '. (No wrap — the value was already in range.)';
+    }
+  } else if (vizStep === 5) {
+    display.appendChild(makeBox(c, 'amber-highlight', 'input'));
+    display.appendChild(makeText('→', '#8b949e'));
+    display.appendChild(makeBox(resultChar, 'highlight', 'result'));
+    expl.textContent = 'Position ' + finalPos + ' + 65 = ' + (finalPos + 65) + ' → cast to char → \'' + resultChar + '\'. So \'' + c + '\' encoded with shift ' + shift + ' = \'' + resultChar + '\'!';
+    btn.textContent = 'Try Again ↺';
+  }
+}
+
+function resetViz() {
+  vizStep = 0;
+  renderStep();
+  document.getElementById('stepBtn').textContent = 'Next Step →';
+}
+
+document.getElementById('stepBtn').addEventListener('click', function() {
+  if (vizStep >= 5) { resetViz(); return; }
+  vizStep++;
+  renderStep();
+});
+document.getElementById('resetBtn').addEventListener('click', resetViz);
+document.getElementById('vizChar').addEventListener('input', resetViz);
+document.getElementById('vizShift').addEventListener('input', resetViz);
+
+resetViz();
+
+// ── Caesar encode/decode ─────────────────────────────────────
+function caesarTransform(text, shift, decode) {
+  var out = '';
+  for (var i = 0; i < text.length; i++) {
+    var c = text[i];
+    var code = text.charCodeAt(i);
+    if (code >= 65 && code <= 90) {
+      var pos = code - 65;
+      var s = decode ? (pos - shift + 26) % 26 : (pos + shift) % 26;
+      out += String.fromCharCode(s + 65);
+    } else if (code >= 97 && code <= 122) {
+      var pos = code - 97;
+      var s = decode ? (pos - shift + 26) % 26 : (pos + shift) % 26;
+      out += String.fromCharCode(s + 97);
+    } else {
+      out += c;
+    }
+  }
+  return out;
+}
+
+// ── Live demo ────────────────────────────────────────────────
+var demoMode = 'encode';
+
+function setMode(mode) {
+  demoMode = mode;
+  document.getElementById('encodeBtn').classList.toggle('active', mode === 'encode');
+  document.getElementById('decodeBtn').classList.toggle('active', mode === 'decode');
+  document.getElementById('outputLabel').textContent = mode === 'encode' ? 'Encoded output:' : 'Decoded output:';
+  runDemo();
+}
+
+function runDemo() {
+  var text = document.getElementById('demoInput').value;
+  var shift = parseInt(document.getElementById('shiftSlider').value, 10);
+  document.getElementById('shiftDisplay').textContent = shift;
+  if (!text) {
+    document.getElementById('demoOutput').textContent = 'Your output will appear here...';
+    return;
+  }
+  document.getElementById('demoOutput').textContent = caesarTransform(text, shift, demoMode === 'decode');
+}
+
+document.getElementById('demoInput').addEventListener('input', runDemo);
+document.getElementById('shiftSlider').addEventListener('input', function() {
+  document.getElementById('shiftDisplay').textContent = this.value;
+  runDemo();
+});
+
+// ── Quiz ─────────────────────────────────────────────────────
+var quizAnswers = { q1: 'B', q2: 'C', q3: 'B' };
+var quizFeedback = {
+  q1: {
+    correct: '✓ Correct! E is the 5th letter, but we count from 0, so its position is 4. (int)\'E\' − (int)\'A\' = 69 − 65 = 4.',
+    incorrect: '✗ Not quite. We count from 0: A=0, B=1, C=2, D=3, E=4. Try (int)\'E\' - (int)\'A\' in your head.'
+  },
+  q2: {
+    correct: '✓ Correct! Y is position 24. 24 + 3 = 27. 27 % 26 = 1. Position 1 = \'B\'. The alphabet wrapped!',
+    incorrect: '✗ Not quite. Y is position 24. Add 3 to get 27. Then 27 % 26 = 1. What letter is at position 1?'
+  },
+  q3: {
+    correct: '✓ Correct! % 26 is the wrap-around operator. It keeps your alphabet position in the valid range 0–25.',
+    incorrect: '✗ Not quite. Think about what happens when position 24 + shift 3 = 27. Without % 26, position 27 isn\'t a letter at all!'
+  }
+};
+
+['q1','q2','q3'].forEach(function(q) {
+  document.querySelectorAll('input[name="' + q + '"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var fb = document.getElementById(q + '-feedback');
+      var isCorrect = this.value === quizAnswers[q];
+      fb.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+      fb.textContent = isCorrect ? quizFeedback[q].correct : quizFeedback[q].incorrect;
+      document.querySelectorAll('input[name="' + q + '"]').forEach(function(r) {
+        r.closest('.quiz-option').classList.remove('correct','incorrect');
+      });
+      this.closest('.quiz-option').classList.add(isCorrect ? 'correct' : 'incorrect');
+    });
+  });
+});
+
+// ── Syntax highlight ─────────────────────────────────────────
+hljs.highlightAll();
+</script>
+
+</body>
+</html>
