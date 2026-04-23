@@ -178,14 +178,28 @@ String[] words = sentence.split(" ");
     <h3>Your Task</h3>
 
     <p>Write a method <code>pigLatinWord(String word)</code>. You should be able to pass in any word and get back the Pig Latin version.</p>
-    <p style="color:#8b949e;font-size:0.9rem;">Use the tester below to check your output — type a word, see what the correct answer is, then run your method in Processing and compare.</p>
 
-    <div style="margin-top:1.2rem;">
-      <label class="demo-label" for="taskWordInput">Enter a word:</label>
-      <div style="display:flex;gap:0.7rem;align-items:center;margin-top:0.4rem;flex-wrap:wrap;">
-        <input type="text" class="step-input" id="taskWordInput" placeholder="hello" style="width:200px;">
-        <span style="color:#8b949e;font-size:0.9rem;">&rarr;</span>
-        <div id="taskWordOutput" style="color:#00ff41;font-size:1.1rem;font-family:monospace;min-width:120px;">&mdash;</div>
+    <div style="text-align:center;margin:1.5rem 0;">
+      <div style="color:#ffb700;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.8rem;">// Assignment</div>
+      <h2 style="font-size:1.3rem;letter-spacing:2px;color:#fff;margin-bottom:0.5rem;text-transform:none;">Ready to write the code?</h2>
+      <p style="color:#8b949e;max-width:480px;margin:0 auto 1rem;">Accept the GitHub Classroom assignment to get your copy of the starter file. Write your methods, commit your work, and you're done.</p>
+      <a href="https://classroom.github.com/a/3JgQHjA5" target="_blank"
+         style="display:inline-block;padding:0.75rem 2rem;background:rgba(255,183,0,0.1);border:2px solid var(--amber);color:var(--amber);font-family:monospace;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;border-radius:4px;text-decoration:none;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(255,183,0,0.18)';this.style.boxShadow='0 0 20px rgba(255,183,0,0.25)';"
+         onmouseout="this.style.background='rgba(255,183,0,0.1)';this.style.boxShadow='none';">
+        Complete Assignment &rarr;
+      </a>
+    </div>
+
+    <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1.5rem;">
+      <p style="color:#8b949e;font-size:0.9rem;">Use the tester below to check your output — type a word, see what the correct answer is, then compare it to what your method returns.</p>
+      <div style="margin-top:1rem;">
+        <label class="demo-label" for="taskWordInput">Enter a word:</label>
+        <div style="display:flex;gap:0.7rem;align-items:center;margin-top:0.4rem;flex-wrap:wrap;">
+          <input type="text" class="step-input" id="taskWordInput" placeholder="hello" style="width:200px;">
+          <span style="color:#8b949e;font-size:0.9rem;">&rarr;</span>
+          <div id="taskWordOutput" style="color:#00ff41;font-size:1.1rem;font-family:monospace;min-width:120px;">&mdash;</div>
+        </div>
       </div>
     </div>
 
@@ -198,21 +212,6 @@ String[] words = sentence.split(" ");
         <div class="hint-item"><code>charAt(0)</code> returns a <code>char</code>, not a <code>String</code>. Java will still let you concatenate it with <code>+</code>, but you can also write <code>String.valueOf(word.charAt(0))</code> to be explicit.</div>
         <div class="hint-item">Test with a single-letter word like <code>"a"</code>. What should <code>substring(1)</code> return on a one-character string? (It returns an empty string — and that's fine!)</div>
       </div>
-    </div>
-  </div>
-
-  <!-- ASSIGNMENT LINK -->
-  <div style="border-top:2px solid var(--amber);margin:2.5rem 0;padding-top:2.5rem;">
-    <div style="text-align:center;">
-      <div style="color:#ffb700;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;">// Assignment</div>
-      <h2 style="font-size:1.4rem;letter-spacing:2px;color:#fff;margin-bottom:0.5rem;text-transform:none;">Ready to write the code?</h2>
-      <p style="color:#8b949e;max-width:480px;margin:0 auto 1.5rem;">Accept the GitHub Classroom assignment to get your copy of the starter file. Write your methods, commit your work, and you're done.</p>
-      <a href="https://classroom.github.com/a/3JgQHjA5" target="_blank"
-         style="display:inline-block;padding:0.75rem 2rem;background:rgba(255,183,0,0.1);border:2px solid var(--amber);color:var(--amber);font-family:monospace;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;border-radius:4px;text-decoration:none;transition:background 0.2s,box-shadow 0.2s;"
-         onmouseover="this.style.background='rgba(255,183,0,0.18)';this.style.boxShadow='0 0 20px rgba(255,183,0,0.25)';"
-         onmouseout="this.style.background='rgba(255,183,0,0.1)';this.style.boxShadow='none';">
-        Complete Assignment &rarr;
-      </a>
     </div>
   </div>
 
