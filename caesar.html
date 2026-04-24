@@ -281,18 +281,19 @@ int shifted = (pos - shift + 26) % 26;</code></pre>
           <label class="demo-label" for="taskShift">Shift:</label>
           <input type="number" class="step-input" id="taskShift" value="3" min="1" max="25" style="width:72px;">
         </div>
-        <div class="decode-toggle" style="margin:0;">
-          <button class="toggle-btn active" id="taskEncodeBtn" onclick="setTaskMode('encode')">Encode</button>
-          <button class="toggle-btn" id="taskDecodeBtn" onclick="setTaskMode('decode')">Decode</button>
-        </div>
       </div>
 
-      <div style="margin-top:0.9rem;display:flex;align-items:center;gap:0.7rem;font-family:monospace;font-size:1rem;">
-        <span style="color:#8b949e;" id="taskModeLabel">caesarEncode(</span>
-        <span style="color:#c9d1d9;" id="taskArgDisplay">"hello", 3</span>
-        <span style="color:#8b949e;">)</span>
-        <span style="color:#8b949e;">&rarr;</span>
-        <span style="color:#00ff41;font-size:1.1rem;" id="taskOutput">&mdash;</span>
+      <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.55rem;font-family:monospace;font-size:1rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <span style="color:#8b949e;">caesarEncode(</span><span style="color:#c9d1d9;" id="taskEncodeArgs">"hello", 3</span><span style="color:#8b949e;">)</span>
+          <span style="color:#8b949e;">&rarr;</span>
+          <span style="color:#00ff41;font-size:1.1rem;" id="taskEncodeOutput">&mdash;</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <span style="color:#8b949e;">caesarDecode(</span><span style="color:#c9d1d9;" id="taskDecodeArgs">"khoor", 3</span><span style="color:#8b949e;">)</span>
+          <span style="color:#8b949e;">&rarr;</span>
+          <span style="color:#00ff41;font-size:1.1rem;" id="taskDecodeOutput">&mdash;</span>
+        </div>
       </div>
     </div>
 
@@ -691,25 +692,16 @@ document.getElementById('stretchWord').addEventListener('input', runStretchTeste
 document.getElementById('stretchShift').addEventListener('input', runStretchTester);
 
 // ── Task tester ───────────────────────────────────────────────
-var taskMode = 'encode';
-
-function setTaskMode(mode) {
-  taskMode = mode;
-  document.getElementById('taskEncodeBtn').classList.toggle('active', mode === 'encode');
-  document.getElementById('taskDecodeBtn').classList.toggle('active', mode === 'decode');
-  runTaskTester();
-}
-
 function runTaskTester() {
   var word  = document.getElementById('taskWord').value;
   var shift = parseInt(document.getElementById('taskShift').value, 10);
   if (isNaN(shift)) shift = 3;
-  var label = taskMode === 'encode' ? 'caesarEncode(' : 'caesarDecode(';
-  document.getElementById('taskModeLabel').textContent = label;
-  document.getElementById('taskArgDisplay').textContent =
-    '"' + (word || '') + '", ' + shift;
-  document.getElementById('taskOutput').textContent =
-    word ? caesarTransform(word, shift, taskMode === 'decode') : '—';
+  var encoded = word ? caesarTransform(word, shift, false) : '';
+  var decoded = encoded ? caesarTransform(encoded, shift, true) : '';
+  document.getElementById('taskEncodeArgs').textContent = '"' + (word || '') + '", ' + shift;
+  document.getElementById('taskEncodeOutput').textContent = encoded || '—';
+  document.getElementById('taskDecodeArgs').textContent = '"' + (encoded || '') + '", ' + shift;
+  document.getElementById('taskDecodeOutput').textContent = decoded || '—';
 }
 
 document.getElementById('taskWord').addEventListener('input', runTaskTester);
