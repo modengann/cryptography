@@ -1,20 +1,34 @@
 public class CaesarCipher {
 
-    // Encodes a lowercase string using a Caesar cipher shift.
-    // Letters outside a-z (spaces, punctuation) pass through unchanged.
+    // Encodes a single lowercase letter using a Caesar cipher shift.
+    // Example: caesarEncodeChar('h', 3) → 'k'
+    public char caesarEncodeChar(char c, int shift) {
+
+        // TODO: get the letter's position in the alphabet (0–25)
+        //         pos = c - 'a'
+
+        // TODO: shift it and wrap using % 26
+        //         shifted = (pos + shift) % 26
+
+        // TODO: convert back to a char and return it
+        //         return (char)(shifted + 'a')
+
+        return c; // replace this line
+    }
+
+
+    // Encodes a full lowercase word by calling caesarEncodeChar on each letter.
+    // Non-letter characters (spaces, punctuation) pass through unchanged.
     // Example: caesarEncode("hello", 3) → "khoor"
     public String caesarEncode(String word, int shift) {
+
+        // TODO: create an empty String to build your result
 
         // TODO: loop through every character in word using charAt(i)
 
         // TODO: for each character, check if it's a lowercase letter (>= 'a' && <= 'z')
-
-        // TODO: if it is a letter:
-        //         get its position: pos = c - 'a'
-        //         shift it:         shifted = (pos + shift) % 26
-        //         turn it back:     (char)(shifted + 'a')
-
-        // TODO: if it's not a letter, add it unchanged
+        //         if it is: call caesarEncodeChar(c, shift) and add the result
+        //         if it isn't: add it unchanged
 
         // TODO: return the encoded string
 
@@ -58,8 +72,17 @@ public class CaesarCipher {
     public static void main(String[] args) {
         CaesarCipher cc = new CaesarCipher();
 
+        // ── Test caesarEncodeChar ────────────────────────────────
+        System.out.println("=== caesarEncodeChar ===");
+
+        System.out.println(cc.caesarEncodeChar('h', 3));   // expected: k
+        System.out.println(cc.caesarEncodeChar('a', 1));   // expected: b
+        System.out.println(cc.caesarEncodeChar('z', 1));   // expected: a  (wraps!)
+        System.out.println(cc.caesarEncodeChar('y', 3));   // expected: b  (wraps!)
+
+
         // ── Test caesarEncode ────────────────────────────────────
-        System.out.println("=== caesarEncode ===");
+        System.out.println("\n=== caesarEncode ===");
 
         System.out.println(cc.caesarEncode("hello", 3));      // expected: khoor
         System.out.println(cc.caesarEncode("java", 1));        // expected: kbwb

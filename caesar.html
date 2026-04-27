@@ -255,7 +255,12 @@ int shifted = (pos - shift + 26) % 26;</code></pre>
     <div class="ide-task-header">// Mission Complete &mdash; Now Open Your IDE</div>
     <h3>Your Task</h3>
 
-    <p>Write two methods: <code>caesarEncode(String word, int shift)</code> and <code>caesarDecode(String word, int shift)</code>. Each letter in the word should be shifted through the alphabet — lowercase only, spaces and punctuation pass through unchanged.</p>
+    <p>You'll write three methods, each building on the one before it.</p>
+    <ul style="color:#c9d1d9;line-height:2;margin:0.5rem 0 0;">
+      <li><strong>Method 1 — <code>caesarEncodeChar(char c, int shift)</code>:</strong> takes a single lowercase letter and returns the encoded character. Just the three-step formula — no loop needed.</li>
+      <li><strong>Method 2 — <code>caesarEncode(String word, int shift)</code>:</strong> loops through the word and calls <code>caesarEncodeChar</code> on each letter. Non-letters (spaces, punctuation) pass through unchanged.</li>
+      <li><strong>Method 3 — <code>caesarDecode(String word, int shift)</code>:</strong> same loop as encode, but shifts backwards. Use <code>(pos - shift + 26) % 26</code> to prevent negative numbers.</li>
+    </ul>
 
     <div style="text-align:center;margin:1.5rem 0;">
       <div style="color:#ffb700;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.8rem;">// Assignment</div>
@@ -270,9 +275,29 @@ int shifted = (pos - shift + 26) % 26;</code></pre>
     </div>
 
     <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1.5rem;">
-      <p style="color:#8b949e;font-size:0.9rem;">Use the tester below to check your output. Enter a word and a shift, then run the same inputs through your Java method and make sure the results match.</p>
+      <p style="color:#8b949e;font-size:0.9rem;margin-bottom:1.2rem;">Use the testers below to check your output against each method. Run the same inputs through your Java code and make sure the results match.</p>
 
-      <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end;">
+      <!-- Method 1 tester: single char -->
+      <p style="color:#c9d1d9;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:0.6rem;">Method 1 — caesarEncodeChar</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <label class="demo-label" for="taskChar">Character (a–z):</label>
+          <input type="text" class="step-input" id="taskChar" maxlength="1" placeholder="h" style="width:72px;text-align:center;font-size:1.1rem;">
+        </div>
+        <div>
+          <label class="demo-label" for="taskCharShift">Shift:</label>
+          <input type="number" class="step-input" id="taskCharShift" value="3" min="1" max="25" style="width:72px;">
+        </div>
+      </div>
+      <div style="margin-top:0.8rem;font-family:monospace;font-size:1rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+        <span style="color:#8b949e;">caesarEncodeChar(</span><span style="color:#c9d1d9;" id="taskCharArgs">'h', 3</span><span style="color:#8b949e;">)</span>
+        <span style="color:#8b949e;">&rarr;</span>
+        <span style="color:#00ff41;font-size:1.1rem;" id="taskCharOutput">&mdash;</span>
+      </div>
+
+      <!-- Method 2 & 3 tester: word -->
+      <p style="color:#c9d1d9;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;margin:1.5rem 0 0.6rem;">Methods 2 &amp; 3 — caesarEncode / caesarDecode</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end;">
         <div>
           <label class="demo-label" for="taskWord">Word:</label>
           <input type="text" class="step-input" id="taskWord" placeholder="hello" style="width:180px;">
@@ -282,8 +307,7 @@ int shifted = (pos - shift + 26) % 26;</code></pre>
           <input type="number" class="step-input" id="taskShift" value="3" min="1" max="25" style="width:72px;">
         </div>
       </div>
-
-      <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.55rem;font-family:monospace;font-size:1rem;">
+      <div style="margin-top:0.8rem;display:flex;flex-direction:column;gap:0.55rem;font-family:monospace;font-size:1rem;">
         <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
           <span style="color:#8b949e;">caesarEncode(</span><span style="color:#c9d1d9;" id="taskEncodeArgs">"hello", 3</span><span style="color:#8b949e;">)</span>
           <span style="color:#8b949e;">&rarr;</span>
@@ -302,8 +326,9 @@ int shifted = (pos - shift + 26) % 26;</code></pre>
         Show Hints
       </button>
       <div class="hints-content" id="hintsContent1">
-        <div class="hint-item">The check <code>c &gt;= 'a' &amp;&amp; c &lt;= 'z'</code> is the same idea as <code>Character.isLetter(c)</code>, but more specific — it only matches lowercase letters, which is exactly what you want here.</div>
-        <div class="hint-item">Test the edge case: encoding <code>'z'</code> with shift 1 should give <code>'a'</code>. If it doesn't, check that your % 26 is applied before adding <code>'a'</code> back.</div>
+        <div class="hint-item">In <code>caesarEncodeChar</code>, you only need three lines — no loop, no if/else. Just the formula: <code>pos</code>, <code>shifted</code>, and a return.</div>
+        <div class="hint-item">In <code>caesarEncode</code>, the check <code>c &gt;= 'a' &amp;&amp; c &lt;= 'z'</code> only matches lowercase letters. Anything else — spaces, punctuation — gets added unchanged.</div>
+        <div class="hint-item">Test the edge case: <code>caesarEncodeChar('z', 1)</code> should return <code>'a'</code>. If it doesn't, check that <code>% 26</code> is applied before adding <code>'a'</code> back.</div>
         <div class="hint-item"><code>caesarDecode</code> is almost identical to <code>caesarEncode</code> — the only difference is <code>(pos - shift + 26) % 26</code> instead of <code>(pos + shift) % 26</code>.</div>
       </div>
     </div>
@@ -690,6 +715,26 @@ function runStretchTester() {
 
 document.getElementById('stretchWord').addEventListener('input', runStretchTester);
 document.getElementById('stretchShift').addEventListener('input', runStretchTester);
+
+// ── Single-char tester (Method 1) ────────────────────────────
+function runCharTester() {
+  var c     = document.getElementById('taskChar').value.toLowerCase();
+  var shift = parseInt(document.getElementById('taskCharShift').value, 10);
+  if (isNaN(shift)) shift = 3;
+  var valid = c && /[a-z]/.test(c);
+  document.getElementById('taskCharArgs').textContent = valid ? "'" + c + "', " + shift : "'', " + shift;
+  if (valid) {
+    var result = String.fromCharCode(((c.charCodeAt(0) - 97 + shift) % 26) + 97);
+    document.getElementById('taskCharOutput').textContent = "'" + result + "'";
+    document.getElementById('taskCharOutput').style.color = '#00ff41';
+  } else {
+    document.getElementById('taskCharOutput').textContent = '—';
+    document.getElementById('taskCharOutput').style.color = '#8b949e';
+  }
+}
+
+document.getElementById('taskChar').addEventListener('input', runCharTester);
+document.getElementById('taskCharShift').addEventListener('input', runCharTester);
 
 // ── Task tester ───────────────────────────────────────────────
 function runTaskTester() {
