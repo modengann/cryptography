@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -29,13 +29,13 @@
   <div class="page-header">
     <span class="mission-label">Mission 03 // Day 3</span>
     <h1>Keyword Cipher</h1>
-    <p style="color:#8b949e;margin:0.5rem 0 0;">The most powerful cipher yet — because the key isn't a number, it's a whole codebook. Learn to parse it, search it, and use it to swap words in a message.</p>
+    <p style="color:#8b949e;margin:0.5rem 0 0;">The most powerful cipher yet â€” because the key isn't a number, it's a whole codebook. Learn to parse it, search it, and use it to swap words in a message.</p>
   </div>
 
   <!-- SECTION 1: CONCEPT -->
   <div class="section-card">
     <h2>The Codebook Concept</h2>
-    <p>The Caesar cipher shifts every letter by the same amount — anyone who knows the rule and the shift can break it. The Keyword cipher is different: instead of shifting letters, you swap entire <em>words</em> using a secret codebook.</p>
+    <p>The Caesar cipher shifts every letter by the same amount â€” anyone who knows the rule and the shift can break it. The Keyword cipher is different: instead of shifting letters, you swap entire <em>words</em> using a secret codebook.</p>
     <p>The codebook is a list of pairs: <code>real word,code word</code>. To encode a message, you look up each word. If you find it, replace it. If you don't, leave it as-is.</p>
 
     <label class="demo-label" style="margin-bottom:0.5rem;">// codebook.txt</label>
@@ -57,7 +57,7 @@ park,lima</code></pre>
       </div>
     </div>
 
-    <p style="margin-top:1rem;">The codebook <em>is</em> the secret key. Two people can send "foxtrot november bravo tango november lima" and anyone intercepting it just sees words — unless they have the codebook.</p>
+    <p style="margin-top:1rem;">The codebook <em>is</em> the secret key. Two people can send "foxtrot november bravo tango november lima" and anyone intercepting it just sees words â€” unless they have the codebook.</p>
     <p>To decode: do the same lookup in reverse. Find the code word in the right column, replace it with the real word in the left column.</p>
   </div>
 
@@ -65,27 +65,27 @@ park,lima</code></pre>
   <div class="section-card">
     <h2>Java Concepts You'll Use</h2>
 
-    <h3>split(",") — Different Delimiter</h3>
-    <p>You already used <code>split(" ")</code> to split on spaces. You can split on any character — the codebook uses commas.</p>
+    <h3>split(",") â€” Different Delimiter</h3>
+    <p>You already used <code>split(" ")</code> to split on spaces. You can split on any character â€” the codebook uses commas.</p>
     <pre><code class="language-java">String entry = "dog,bravo";
 String[] parts = entry.split(",");
-// parts[0] is "dog"   — the real word
-// parts[1] is "bravo" — the code word</code></pre>
+// parts[0] is "dog"   â€” the real word
+// parts[1] is "bravo" â€” the code word</code></pre>
     <div class="word-array">
       <div class="word-box">dog <span style="color:#8b949e;font-size:0.7rem;">parts[0]</span></div>
       <div class="word-box">bravo <span style="color:#8b949e;font-size:0.7rem;">parts[1]</span></div>
     </div>
 
-    <h3>equals() — The Right Way to Compare Strings</h3>
+    <h3>equals() â€” The Right Way to Compare Strings</h3>
     <p>Here's a trap almost every Java beginner falls into: using <code>==</code> to compare Strings.</p>
     <pre><code class="language-java">String word = "hello";
 
-// WRONG — this often fails even when strings look identical
+// WRONG â€” this often fails even when strings look identical
 if (word == "hello") { ... }
 
-// RIGHT — always use .equals() for String comparison
+// RIGHT â€” always use .equals() for String comparison
 if (word.equals("hello")) { ... }</code></pre>
-    <p><code>==</code> checks if two variables point to the exact same object in memory. <code>.equals()</code> checks if they contain the same characters. For Strings, you almost always want <code>.equals()</code>. Just make it a habit — it will save you hours of confusing bugs.</p>
+    <p><code>==</code> checks if two variables point to the exact same object in memory. <code>.equals()</code> checks if they contain the same characters. For Strings, you almost always want <code>.equals()</code>. Just make it a habit â€” it will save you hours of confusing bugs.</p>
 
     <h3>The Two-Level Split Pattern</h3>
     <p>Here's the core algorithm, step by step:</p>
@@ -109,7 +109,7 @@ if (word.equals("hello")) { ... }</code></pre>
     </div>
 
     <h3>Pass-Through Logic</h3>
-    <p>What happens if a word isn't in the codebook? Nothing — you just keep the original word.</p>
+    <p>What happens if a word isn't in the codebook? Nothing â€” you just keep the original word.</p>
     <pre><code class="language-java">String encodedWord = word;   // default: unchanged
 
 for (String entry : codebook) {
@@ -119,7 +119,7 @@ for (String entry : codebook) {
         break;                          // no need to keep searching
     }
 }
-// encodedWord is now either the swap or the original — both cases handled</code></pre>
+// encodedWord is now either the swap or the original â€” both cases handled</code></pre>
   </div>
 
   <!-- SECTION 3: STEP-THROUGH VISUALIZER -->
@@ -154,7 +154,7 @@ for (String entry : codebook) {
   <!-- SECTION 4: LIVE DEMO -->
   <div class="section-card">
     <h2>Live Demo</h2>
-    <p style="color:#8b949e;font-size:0.9rem;">Type a sentence. The codebook on the right shows every available swap — you can see exactly which words are being replaced.</p>
+    <p style="color:#8b949e;font-size:0.9rem;">Type a sentence. The codebook on the right shows every available swap â€” you can see exactly which words are being replaced.</p>
 
     <div class="live-demo">
       <div class="demo-grid">
@@ -219,117 +219,49 @@ for (String entry : codebook) {
   <div class="section-card amber-accent ide-task">
     <div class="ide-task-header">// Mission Complete &mdash; Now Open Your IDE</div>
     <h3>Your Task</h3>
-    <p>Your teacher will give you two ArrayLists: the lines of a message, and the codebook entries already loaded from a file. You'll write three methods — build them in order, because each one uses the one before it.</p>
+    <p>Apply what you learned on this page to build the full keyword cipher in Java. You'll encode and decode full message lines using a codebook.</p>
 
-    <!-- METHOD 1 -->
-    <h4 style="color:#ffb700;margin:1.5rem 0 0.4rem;font-family:monospace;font-size:1rem;">// Method 1 — encode a single word</h4>
-    <p style="margin:0 0 0.8rem;font-size:0.95rem;">Given one word and the codebook, search for a match and return the code word. If no match exists, return the original word unchanged. This is the core lookup — the other two methods will call this one.</p>
-<pre><code class="language-java">// Takes a single word and searches the codebook for a match.
-// Returns the code word if found, or the original word if not.
-public String encodeWord(String word, ArrayList&lt;String&gt; codebook) {
-
-    // Loop through every entry in the codebook
-    for (String entry : codebook) {
-
-        // Split the entry on the comma → ["realWord", "codeWord"]
-        String[] parts = entry.split(",");
-
-        // Does this entry match our word?
-        if (word.equals(parts[0])) {
-            return parts[1];   // found it — return the code word
-        }
-    }
-
-    return word;   // no match found — return the original word unchanged
-}</code></pre>
-
-    <!-- METHOD 2 -->
-    <h4 style="color:#ffb700;margin:1.5rem 0 0.4rem;font-family:monospace;font-size:1rem;">// Method 2 — encode a full sentence</h4>
-    <p style="margin:0 0 0.8rem;font-size:0.95rem;">Given a sentence (one String) and the codebook, split it into words, call <code>encodeWord</code> on each one, and return the encoded sentence as a single String.</p>
-<pre><code class="language-java">// Takes a full sentence and encodes every word using the codebook.
-// Returns the encoded sentence as a single String.
-public String encodeSentence(String sentence, ArrayList&lt;String&gt; codebook) {
-
-    // Split the sentence into individual words
-    String[] words = sentence.split(" ");
-    String result = "";
-
-    for (String word : words) {
-
-        // Reuse Method 1 — encode this single word
-        String encoded = encodeWord(word, codebook);
-
-        // Build up the result, adding a space between words
-        if (!result.isEmpty()) result += " ";
-        result += encoded;
-    }
-
-    return result;
-}</code></pre>
-
-    <!-- METHOD 3 -->
-    <h4 style="color:#ffb700;margin:1.5rem 0 0.4rem;font-family:monospace;font-size:1rem;">// Method 3 — decode a full sentence</h4>
-    <p style="margin:0 0 0.8rem;font-size:0.95rem;">Given an <em>encoded</em> sentence and the codebook, reverse the lookup: search for each word in the <em>code word</em> column (<code>parts[1]</code>) and return the real word (<code>parts[0]</code>).</p>
-<pre><code class="language-java">// Takes an encoded sentence and reverses the codebook lookup.
-// Returns the decoded sentence as a single String.
-public String decodeSentence(String sentence, ArrayList&lt;String&gt; codebook) {
-
-    String[] words = sentence.split(" ");
-    String result = "";
-
-    for (String word : words) {
-        String decoded = word;   // default: unchanged
-
-        // This time, match against parts[1] (the code word)
-        // and return parts[0] (the real word)
-        for (String entry : codebook) {
-            String[] parts = entry.split(",");
-            if (word.equals(parts[1])) {
-                decoded = parts[0];
-                break;
-            }
-        }
-
-        if (!result.isEmpty()) result += " ";
-        result += decoded;
-    }
-
-    return result;
-}</code></pre>
-
-    <div class="gotcha-box" style="margin-top:1.5rem;">
-      <strong>// Extension Challenge</strong>
-      <p style="margin:0.5rem 0 0;color:#c9d1d9;">What if two different real words map to the same code word? For example: <code>"now,november"</code> and <code>"here,november"</code>. When you decode <code>"november"</code>, which real word do you use? There's no single right answer — but think about it: how would you modify <code>decodeSentence</code> to handle this ambiguity? Could you return all possible decodings?</p>
+    <div style="text-align:center;margin:1.5rem 0;">
+      <div style="color:#ffb700;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.8rem;">// Assignment</div>
+      <h2 style="font-size:1.3rem;letter-spacing:2px;color:#fff;margin-bottom:0.5rem;text-transform:none;">Ready to write the code?</h2>
+      <p style="color:#8b949e;max-width:520px;margin:0 auto 1rem;">Open the GitHub Classroom assignment, complete your methods, and test your output against expected results.</p>
+      <a href="https://classroom.github.com/a/yPBxEYCE" target="_blank"
+         style="display:inline-block;padding:0.75rem 2rem;background:rgba(255,183,0,0.1);border:2px solid var(--amber);color:var(--amber);font-family:monospace;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;border-radius:4px;text-decoration:none;transition:background 0.2s,box-shadow 0.2s;"
+         onmouseover="this.style.background='rgba(255,183,0,0.18)';this.style.boxShadow='0 0 20px rgba(255,183,0,0.25)';"
+         onmouseout="this.style.background='rgba(255,183,0,0.1)';this.style.boxShadow='none';">
+        Complete Assignment &rarr;
+      </a>
     </div>
 
-    <div class="hints-container">
-      <button class="hints-toggle" id="hintsToggle1" onclick="toggleHints('hintsToggle1','hintsContent1')">
-        Show Hints
-      </button>
-      <div class="hints-content" id="hintsContent1">
-        <div class="hint-item">Write <code>encodeWord</code> first and test it on a single word before moving on. Once that works, <code>encodeSentence</code> is just calling it in a loop.</div>
-        <div class="hint-item">The <code>break</code> in the codebook loop is important — once you find a match, stop searching. Without it, a later entry could accidentally overwrite your result.</div>
-        <div class="hint-item"><code>decodeSentence</code> is almost identical to <code>encodeSentence</code>. The only difference is which column you compare (<code>parts[1]</code>) and which you return (<code>parts[0]</code>).</div>
+    <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1.5rem;">
+      <p style="color:#8b949e;font-size:0.9rem;">Use this mini checker to practice expected behavior before you code.</p>
+      <div class="decode-toggle" style="margin:0.9rem 0 0.8rem;">
+        <button class="toggle-btn active" id="taskEncodeBtn" onclick="setTaskMode('encode')">Encode</button>
+        <button class="toggle-btn" id="taskDecodeBtn" onclick="setTaskMode('decode')">Decode</button>
       </div>
+      <label class="demo-label" for="taskSentenceInput">Try a sentence:</label>
+      <textarea class="demo-input" id="taskSentenceInput" rows="3" placeholder="meet the dog at the park"></textarea>
+      <label class="demo-label" id="taskOutputLabel" style="margin-top:0.8rem;">Expected output:</label>
+      <div id="taskSentenceOutput" class="demo-output">Your expected output will appear here...</div>
+      <p style="color:#8b949e;font-size:0.82rem;margin-top:0.7rem;">Uses the same codebook shown above. Words not in the codebook should pass through unchanged.</p>
     </div>
   </div>
-
 </div><!-- /container -->
 </div><!-- /page-wrapper -->
 
 <script>
-// ── Nav toggle ───────────────────────────────────────────────
+// â”€â”€ Nav toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
 });
 
-// ── Hints helper ─────────────────────────────────────────────
+// â”€â”€ Hints helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function toggleHints(btnId, contentId) {
   document.getElementById(btnId).classList.toggle('open');
   document.getElementById(contentId).classList.toggle('open');
 }
 
-// ── Codebook data ────────────────────────────────────────────
+// â”€â”€ Codebook data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var CODEBOOK = [
   ['dog','bravo'],    ['cat','alpha'],    ['meet','foxtrot'],
   ['tonight','sierra'],['at','tango'],    ['the','november'],
@@ -338,7 +270,7 @@ var CODEBOOK = [
   ['friend','foxtrot'],['help','hotel'],  ['now','november']
 ];
 
-// ── Render codebook as reference chips ───────────────────────
+// â”€â”€ Render codebook as reference chips â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function renderCodebookRef() {
   var html = '';
   CODEBOOK.slice(0, 10).forEach(function(pair) {
@@ -347,7 +279,7 @@ var CODEBOOK = [
   document.getElementById('codebookRef').innerHTML = html;
 })();
 
-// ── Live demo codebook display ────────────────────────────────
+// â”€â”€ Live demo codebook display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function renderCodebookDisplay() {
   var html = '';
   CODEBOOK.forEach(function(pair) {
@@ -356,7 +288,7 @@ var CODEBOOK = [
   document.getElementById('codebookDisplay').textContent = html.trim();
 })();
 
-// ── Encode / Decode helpers ───────────────────────────────────
+// â”€â”€ Encode / Decode helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function encodeText(text) {
   return text.split(' ').map(function(word) {
     if (!word) return word;
@@ -379,7 +311,7 @@ function decodeText(text) {
   }).join(' ');
 }
 
-// ── Live demo ────────────────────────────────────────────────
+// â”€â”€ Live demo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var demoMode = 'encode';
 
 function setDemoMode(mode) {
@@ -401,8 +333,29 @@ function runDemo() {
 }
 
 document.getElementById('demoInput').addEventListener('input', runDemo);
+// Assignment mini checker
+var taskMode = 'encode';
+function setTaskMode(mode) {
+  taskMode = mode;
+  document.getElementById('taskEncodeBtn').classList.toggle('active', mode === 'encode');
+  document.getElementById('taskDecodeBtn').classList.toggle('active', mode === 'decode');
+  document.getElementById('taskOutputLabel').textContent = mode === 'encode' ? 'Expected output:' : 'Expected decoded output:';
+  runTaskDemo();
+}
 
-// ── Step-through visualizer ───────────────────────────────────
+function runTaskDemo() {
+  var val = document.getElementById('taskSentenceInput').value;
+  if (!val.trim()) {
+    document.getElementById('taskSentenceOutput').textContent = 'Your expected output will appear here...';
+    return;
+  }
+  document.getElementById('taskSentenceOutput').textContent =
+    taskMode === 'encode' ? encodeText(val) : decodeText(val);
+}
+
+document.getElementById('taskSentenceInput').addEventListener('input', runTaskDemo);
+
+// â”€â”€ Step-through visualizer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var VIZ_SENTENCE = ['meet', 'the', 'dog', 'at', 'the', 'park'];
 var VIZ_CODEBOOK = [
   ['dog','bravo'],['cat','alpha'],['meet','foxtrot'],
@@ -410,21 +363,27 @@ var VIZ_CODEBOOK = [
   ['park','lima'],['run','delta']
 ];
 
+// Pre-compute all steps
 function buildSteps() {
   var steps = [];
   var encoded = [];
   VIZ_SENTENCE.forEach(function(word, wi) {
+    // Step: start looking up this word
     steps.push({ type: 'start', word: word, wi: wi, encoded: encoded.slice() });
+
     var matched = false;
     for (var ci = 0; ci < VIZ_CODEBOOK.length; ci++) {
       var entry = VIZ_CODEBOOK[ci];
       if (entry[0] === word) {
+        // Step: show the match
         steps.push({ type: 'match', word: word, wi: wi, entry: entry, encoded: encoded.slice() });
         encoded.push(entry[1]);
+        // Step: show result of this word
         steps.push({ type: 'result', word: word, wi: wi, swap: entry[1], encoded: encoded.slice() });
         matched = true;
         break;
       } else if (ci === VIZ_CODEBOOK.length - 1) {
+        // No match
         steps.push({ type: 'nomatch', word: word, wi: wi, encoded: encoded.slice() });
         encoded.push(word);
         steps.push({ type: 'result', word: word, wi: wi, swap: null, encoded: encoded.slice() });
@@ -466,18 +425,18 @@ function advanceViz() {
 
   if (step.type === 'start') {
     codeLine.textContent = '';
-    status.textContent = 'Looking up word ' + (step.wi + 1) + ' of ' + VIZ_SENTENCE.length + ': "' + step.word + '" — searching through codebook entries...';
+    status.textContent = 'Looking up word ' + (step.wi + 1) + ' of ' + VIZ_SENTENCE.length + ': "' + step.word + '" â€” searching through codebook entries...';
   } else if (step.type === 'match') {
-    codeLine.textContent = 'Found: "' + step.entry[0] + ',' + step.entry[1] + '" → split(",") → ["' + step.entry[0] + '", "' + step.entry[1] + '"]';
-    status.textContent = '"' + step.word + '".equals("' + step.entry[0] + '") → true! Replacing "' + step.word + '" with "' + step.entry[1] + '".';
+    codeLine.textContent = 'Found: "' + step.entry[0] + ',' + step.entry[1] + '" â†’ split(",") â†’ ["' + step.entry[0] + '", "' + step.entry[1] + '"]';
+    status.textContent = '"' + step.word + '".equals("' + step.entry[0] + '") â†’ true! Replacing "' + step.word + '" with "' + step.entry[1] + '".';
   } else if (step.type === 'nomatch') {
     codeLine.textContent = '(no match found in codebook)';
     status.textContent = '"' + step.word + '" is not in the codebook. Pass-through: the word stays unchanged.';
   } else if (step.type === 'result') {
     if (step.swap) {
-      status.textContent = '✓ "' + step.word + '" → "' + step.swap + '" added to result.';
+      status.textContent = 'âœ“ "' + step.word + '" â†’ "' + step.swap + '" added to result.';
     } else {
-      status.textContent = '✓ "' + step.word + '" kept as-is and added to result.';
+      status.textContent = 'âœ“ "' + step.word + '" kept as-is and added to result.';
     }
     codeLine.textContent = '';
   } else if (step.type === 'done') {
@@ -485,7 +444,7 @@ function advanceViz() {
     codeLine.textContent = '';
     status.textContent = 'Encoding complete! Full encoded message: "' + step.encoded.join(' ') + '"';
     result.textContent = step.encoded.join(' ');
-    btn.textContent = 'Start Over ↺';
+    btn.textContent = 'Start Over â†º';
   }
 }
 
@@ -496,27 +455,29 @@ function resetViz() {
   document.getElementById('vizStatus').textContent = 'This visualizer will encode "meet the dog at the park" word by word using the codebook.';
   document.getElementById('vizCodebookLine').textContent = '';
   document.getElementById('vizResult').textContent = '';
-  document.getElementById('vizStepBtn').textContent = 'Next Step →';
+  document.getElementById('vizStepBtn').textContent = 'Next Step â†’';
 }
 
 document.getElementById('vizStepBtn').addEventListener('click', advanceViz);
 document.getElementById('vizResetBtn').addEventListener('click', resetViz);
+
+// Init
 resetViz();
 
-// ── Quiz ─────────────────────────────────────────────────────
+// â”€â”€ Quiz â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var quizAnswers = { q1: 'B', q2: 'C', q3: 'D' };
 var quizFeedback = {
   q1: {
-    correct: '✓ Correct! == compares memory addresses, not content. .equals() checks if the characters match — which is what you almost always want.',
-    incorrect: '✗ Not quite. Think about what == actually compares in Java. It\'s not the characters...'
+    correct: 'âœ“ Correct! == compares memory addresses, not content. .equals() checks if the characters match â€” which is what you almost always want.',
+    incorrect: 'âœ— Not quite. Think about what == actually compares in Java. It\'s not the characters...'
   },
   q2: {
-    correct: '✓ Correct! split(",") cuts at the comma: "dog" lands in [0], "bravo" lands in [1].',
-    incorrect: '✗ Not quite. split(",") divides the string at the comma and puts each piece into the array in order.'
+    correct: 'âœ“ Correct! split(",") cuts at the comma: "dog" lands in [0], "bravo" lands in [1].',
+    incorrect: 'âœ— Not quite. split(",") divides the string at the comma and puts each piece into the array in order.'
   },
   q3: {
-    correct: '✓ Correct! Words without a codebook entry are passed through unchanged — that\'s intentional. Not every word needs to be secret.',
-    incorrect: '✗ Not quite. The code defaults encodedWord = word before searching. If no match is found, that default is what gets used.'
+    correct: 'âœ“ Correct! Words without a codebook entry are passed through unchanged â€” that\'s intentional. Not every word needs to be secret.',
+    incorrect: 'âœ— Not quite. The code defaults encodedWord = word before searching. If no match is found, that default is what gets used.'
   }
 };
 
@@ -535,9 +496,10 @@ var quizFeedback = {
   });
 });
 
-// ── Syntax highlight ─────────────────────────────────────────
+// â”€â”€ Syntax highlight â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 hljs.highlightAll();
 </script>
 
 </body>
 </html>
+
