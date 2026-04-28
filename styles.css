@@ -611,6 +611,53 @@ pre code {
   text-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
 }
 
+/* ── Codebook Lookup Table ───────────────────────────────── */
+.viz-codebook-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.82rem;
+}
+.viz-codebook-table th {
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+  background: var(--card-bg-2);
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.68rem;
+}
+.viz-codebook-table td {
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.6rem;
+  color: var(--text-muted);
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.viz-codebook-table tr.row-checking td {
+  background: rgba(255, 183, 0, 0.07);
+}
+.viz-codebook-table tr.row-checking td:first-child {
+  color: var(--amber);
+  border-left: 2px solid var(--amber);
+}
+.viz-codebook-table tr.row-match td {
+  background: rgba(0, 255, 65, 0.09);
+  color: var(--green);
+}
+.viz-codebook-table tr.row-match td:first-child {
+  border-left: 2px solid var(--green);
+}
+
+.viz-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+@media (max-width: 600px) {
+  .viz-split { grid-template-columns: 1fr; }
+}
+
 /* ASCII table */
 .ascii-table {
   border-collapse: collapse;
