@@ -283,9 +283,9 @@ var CODEBOOK = [
 (function renderCodebookDisplay() {
   var html = '';
   CODEBOOK.forEach(function(pair) {
-    html += '<span style="color:#00ff41">' + pair[0] + '</span> <span style="color:#8b949e">&rarr;</span> <span style="color:#ffb700">' + pair[1] + '</span>\n';
+    html += '<div><span style="color:#00ff41">' + pair[0] + '</span> <span style="color:#8b949e">&rarr;</span> <span style="color:#ffb700">' + pair[1] + '</span></div>';
   });
-  document.getElementById('codebookDisplay').textContent = html.trim();
+  document.getElementById('codebookDisplay').innerHTML = html;
 })();
 
 // â”€â”€ Encode / Decode helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
